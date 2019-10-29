@@ -10,5 +10,7 @@ package com.proyectoNivelacion.modelo;
  * @author Alejandro
  */
 public class Ejemplo {
-    
+    public void hola() {
+        
+    }
 }
