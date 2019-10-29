@@ -52,7 +52,7 @@ public class Productos implements Serializable {
     @Column(name = "producto_estado")
     private Boolean productoEstado;
     @OneToMany(mappedBy = "productoId")
-    private List<VentaProductos> ventaProductosList;
+    private List<ProductosPublicados> productosPublicadosList;
 
     public Productos() {
     }
@@ -101,12 +101,12 @@ public class Productos implements Serializable {
         this.productoEstado = productoEstado;
     }
 
-    public List<VentaProductos> getVentaProductosList() {
-        return ventaProductosList;
+    public List<ProductosPublicados> getProductosPublicadosList() {
+        return productosPublicadosList;
     }
 
-    public void setVentaProductosList(List<VentaProductos> ventaProductosList) {
-        this.ventaProductosList = ventaProductosList;
+    public void setProductosPublicadosList(List<ProductosPublicados> productosPublicadosList) {
+        this.productosPublicadosList = productosPublicadosList;
     }
 
     @Override

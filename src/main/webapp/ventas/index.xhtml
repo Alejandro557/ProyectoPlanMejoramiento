@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet name="css/bootstrap.min.css"/>
+        <h:outputScript name="botstrap/Mensaje.js"/>
+        <h:outputScript name="botstrap/jquery-2.2.4.min.js"/>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    </h:head>
+    <h:body>
+        <script>
+            #{mensaje.mensaje}
+        </script>
+        <div class="container-fluid mt-3">
+            <div class="row">
+                <div class="col-12 col-md-3">
+                    <div class="list-group">
+                        <a href="#tirilla" class="list-group-item list-group-item-action list-group-item-dark bg-dark text-light" data-toggle="tab">Tirilla</a>
+                        <a href="#listProduct" class="list-group-item list-group-item-action list-group-item-dark bg-dark text-light" data-toggle="tab">Listado productos</a>
+                        <a href="#productos" class="list-group-item list-group-item-action list-group-item-dark bg-dark text-light" data-toggle="tab">Productos a la venta</a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-9">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tirilla">
+                            <div class="card card-body">
+                                <h3 class="text-center card-title">Tirilla</h3>
+                                <hr class="bg-dark"/>
+                                <h:dataTable var="i" value="#{tirilla.productos}" class="table table-striped table-hover table-responsive-md">
+                                    <h:column><f:facet name="header"><h:outputText value="Nombre producto"/></f:facet><h:outputText value="#{i.productoId.productoNombre}"/></h:column>
+                                    <h:column><f:facet name="header"><h:outputText value="Cantidad"/></f:facet><h:outputText value="#{i.cantidad}"/></h:column>
+                                    <h:column><f:facet name="header"><h:outputText value="Valor"/></f:facet><h:outputText value="#{i.productoId.productoValor}"><f:convertNumber pattern="0,000.000"/></h:outputText></h:column>
+                                    <h:column><f:facet name="header"><h:outputText value="Eliminar"/></f:facet>
+                                        <h:form><h:commandButton action="#{ventasBean.eliminarProducto(i)}" class="btn btn-danger" value="Eliminar"/></h:form>
+                                    </h:column>
+                                </h:dataTable>
+                                <div class="row">
+                                    <div class="col-12 col-sm-6">
+                                        <div class="badge badge-info"><h3 class="text-light">Total: $<h:outputText value="#{ventasBean.total}"><f:convertNumber pattern="0,000.000"/></h:outputText></h3></div>  
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <h:form>
+                                    <h:commandButton action="#{ventasBean.anularVenta()}" class="btn btn-primary" value="Anular"/>
+                                </h:form>
+                                <a href="#vender" class="btn btn-primary" data-toggle="modal">Terminar venta</a>
+                                <div class="modal fade" id="vender">
+                                    <div class="modal-dialog modal-md">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="text-center modal-title">Terminar venta</h3>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h:form>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <h:outputLabel value="Efectivo" for="efectivo"/>
+                                                            <h:inputText id="efectivo" class="form-control" requiredMessage="Ingresa el efectivo!" converter="javax.faces.BigDecimal" converterMessage="Ingresa numeros!"/>
+                                                            <h:message for="efectivo" class="text-danger"/>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <h:outputLabel value="Tarjetas" for="tarjetas"/>
+                                                            <h:selectOneMenu value="#{ventasBean.id}" onchange="submit()" valueChangeListener="#{ventasBean.opcionVenta}" class="custom-select" id="tarjetas">
+                                                                <f:selectItem itemLabel="..." itemValue="-1"/>
+                                                                <f:selectItems value="#{ventasBean.itemsTarjeta()}"/>
+                                                            </h:selectOneMenu>
+                                                        </div>
+                                                        <h:panelGroup rendered="#{ventasBean.estado}">
+                                                            <div class="col-12 col-md-6">
+                                                                <h:outputLabel value="Valor pago con tarjeta" for="pagoT"/>
+                                                                <h:inputText id="pagoT" class="form-control" required="true" requiredMessage="Ingresa un pago con tarjeta!" converter="javax.faces.BigDecimal" converterMessage="Ingresa numeros!"/>
+                                                                <h:message for="pagoT" class="text-danger"/>
+                                                            </div>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </h:form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="listProduct">
+                            <div class="card card-body">
+                                <h3 class="text-center card-title">Listado productos</h3>
+                                <hr class="bg-dark"/>
+                                <h:dataTable var="p" value="#{ventasBean.productosSinVender()}" class="table table-striped table-hover table-responsive-md">
+                                    <h:column><f:facet name="header"><h:outputText value="Nombre producto"/></f:facet><h:outputText value="#{p.productoNombre}"/></h:column>
+                                    <h:column><f:facet name="header"><h:outputText value="Cantidad"/></f:facet><h:outputText value="#{p.productoCantidad}"/></h:column>
+                                    <h:column><f:facet name="header"><h:outputText value="Valor"/></f:facet><h:outputText value="#{p.productoValor}"><f:convertNumber pattern="0,000.000"/></h:outputText></h:column>
+                                    <h:column><f:facet name="header"><h:outputText value="Vender"/></f:facet>
+                                        <h:form>
+                                            <h:inputText value="#{ventasBean.cantidad}" id="cantidad" class="form-control" required="true" a:placeholder="Cantidad" requiredMessage="Ingresa una cantidad" converter="javax.faces.Integer" converterMessage="Ingresa valores numericos!"/>
+                                            <h:commandButton action="#{ventasBean.venderProducto(p)}" class="btn btn-danger" value="Vender"/>
+                                            <h:message for="cantidad" class="text-danger"/>
+                                        </h:form>
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="productos">
+                            <div class="card card-body">
+                                <h3 class="text-center card-title">Productos a la venta</h3>
+                                <hr class="bg-dark"/>
+                                <h:dataTable var="p2" value="#{ventasBean.productosVendidos()}" class="table table-striped table-hover table-responsive-md">
+                                    <h:column><f:facet name="header"><h:outputText value="Nombre producto"/></f:facet><h:outputText value="#{p2.productoId.productoNombre}"/></h:column>
+                                    <h:column><f:facet name="header"><h:outputText value="Cantidad"/></f:facet><h:outputText value="#{p2.cantidad}"/></h:column>
+                                    <h:column><f:facet name="header"><h:outputText value="Valor"/></f:facet><h:outputText value="#{p2.productoId.productoValor}"><f:convertNumber pattern="0,000.000"/></h:outputText></h:column>
+                                    <h:column><f:facet name="header"><h:outputText value="Agregar"/></f:facet>
+                                        <h:form><h:commandButton action="#{ventasBean.agregarProductoATirilla(p2)}" class="btn btn-danger" value="Agregar a tirilla"/></h:form>
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h:outputScript name="botstrap/popper.min.js"/>
+        <h:outputScript name="botstrap/bootstrap.min.js"/>
+    </h:body>
+</html>
+
+

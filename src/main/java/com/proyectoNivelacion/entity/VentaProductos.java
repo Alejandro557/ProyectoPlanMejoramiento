@@ -35,12 +35,12 @@ public class VentaProductos implements Serializable {
     @Basic(optional = false)
     @Column(name = "venta_productos_id")
     private Integer ventaProductosId;
-    @JoinColumn(name = "producto_id", referencedColumnName = "producto_id")
-    @ManyToOne
-    private Productos productoId;
     @JoinColumn(name = "venta_id", referencedColumnName = "venta_id")
     @ManyToOne
     private Ventas ventaId;
+    @JoinColumn(name = "producto_id", referencedColumnName = "producto_pub_id")
+    @ManyToOne
+    private ProductosPublicados productoId;
 
     public VentaProductos() {
     }
@@ -57,20 +57,20 @@ public class VentaProductos implements Serializable {
         this.ventaProductosId = ventaProductosId;
     }
 
-    public Productos getProductoId() {
-        return productoId;
-    }
-
-    public void setProductoId(Productos productoId) {
-        this.productoId = productoId;
-    }
-
     public Ventas getVentaId() {
         return ventaId;
     }
 
     public void setVentaId(Ventas ventaId) {
         this.ventaId = ventaId;
+    }
+
+    public ProductosPublicados getProductoId() {
+        return productoId;
+    }
+
+    public void setProductoId(ProductosPublicados productoId) {
+        this.productoId = productoId;
     }
 
     @Override
