@@ -1,0 +1,276 @@
+@import url(https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet);
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+
+
+}
+
+/*contenedor principal */
+
+.contenedor, body, html {
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background-color: rgba(0,0,0,0.5);
+}
+.fondo {
+    background: rgba(0, 0, 0, 0.8);
+}
+/*encabezado*/
+
+header {
+    width: 100%;
+    height: 13%;
+    background: #90EB25;
+    background-image: url(../../../img/s2.jpg);
+    background-size: 100% 100%;
+}
+/*contenedor de logo*/
+
+.logo {
+    width: 80%;
+    height: 100%;
+    float: left;
+}
+/*logo */
+
+.logo img {
+    width: auto;
+    height: 100%;
+    margin-left: 3%;
+}
+/*nombre de usuario*/
+
+/*contenedor de imagen rol*/
+
+.rol {
+    width: 10%;
+    height: 100%;
+    float: left;
+    text-align: center;
+}
+/*imagen de rol*/
+
+.rol img {
+    width: auto;
+    height: 50%;
+    margin-top: 10px;
+}
+.nombre {
+    text-align: center;
+}
+/*contenedor de imagen salir*/
+
+.social {
+    width: 5%;
+    height: 100%;
+    float: left;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.social ul {
+    list-style: none;
+}
+.social ul li {
+    display: inline-block;
+    color: #fff;
+    float: left;
+    padding: 10% 10%;
+    font-size: 1.5em;
+    margin-top: 10px;
+    text-align: center;
+    background: black;
+    border-radius: 30%;
+}
+.social ul li:hover {
+    padding: 10.5% 10.5%;
+}
+/*imagen salir*/
+
+.salir {
+    width: 5%;
+    height: 100%;
+    float: left;
+}
+/*imagen salir*/
+
+.salir img {
+    width: auto;
+    height: 40%;
+    text-align: center;
+    margin-top: 30px;
+}
+/*propiedad para agrandar la imagen tras poner el puntero encima*/
+
+.salir img:hover {
+    width: auto;
+    height: 41%;
+}
+/*se oculta el checkbox*/
+
+input#abrir-cerrar {
+    visibility: hidden;
+    position: absolute;
+    top: -9999px;
+}
+/*se muestra el checkbox tras dar click*/
+
+label[for="abrir-cerrar"] {
+    cursor: pointer;
+    padding: 1rem;
+    background-color: #333;
+    color: #fff;
+    display: inline-block;
+    width: 100%;
+}
+.cerrar {
+    display: none;
+}
+.colornav{
+    color: white;
+}
+#desplegable {
+    width: 0;
+}
+#contenido {
+    margin-left: 0;
+
+}
+.ifrc{
+    background: rgba(0, 0, 0, 0.5);
+}
+/*estilos para hacer el menu desplegable*/
+
+input#abrir-cerrar:checked~#desplegable {
+    width: 20%;
+}
+input#abrir-cerrar:checked+label[for="abrir-cerrar"], input#abrir-cerrar:checked~aside {
+    margin-left: 20%;
+    transition: margin-left .40%;
+}
+input#abrir-cerrar:checked+label[for="abrir-cerrar"] .cerrar {
+    display: inline;
+}
+input#abrir-cerrar:checked+label[for="abrir-cerrar"] .abrir {
+    display: none;
+}
+section {
+    width: 40%;
+    height: 87%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-color: #333;
+    float: left;
+    position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+.desplegable {
+    position: absolute;
+    top: 9%;
+    z-index: 1;
+    background-color: #333;
+    opacity: .8;
+    overflow-x: hidden;
+    transition: 0.1s;
+    box-sizing: border-box;
+}
+.desplegable .boton-cerrar {
+    position: absolute;
+    font-size: 12pt;
+    margin: 0;
+    height: 60px;
+    width: 100%;
+    text-align: center;
+}
+.tamaño {
+    font-weight: bold;
+    text-decoration: none;
+    -webkit-transition: opacity .2s;
+    color: white;
+}
+/*contenedor de los enlaces*/
+
+.divisores-fila {
+    width: 100%;
+    height: 60px;
+    margin-top: 10px;
+}
+.centrado {
+    padding-top: 22px;
+    font-size: 14pt;
+    margin-left: 10px;
+}
+/*contenedor del iframe*/
+
+aside {
+    width: auto;
+    height: 84%;
+    text-decoration: none;
+}
+#contenido {
+    transition: margin-left .4s;
+}
+.abrir-cerrar {
+    color: #2E88C7;
+    font-size: 1rem;
+}
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background-image: url(img/686272.jpg);
+    background-size: 100% 100%;
+}
+.notificaciones{
+    width: 100%;
+    height: auto;
+    background: yellow;
+
+}
+.not{
+    width: 100%;
+    height: 30%;
+}
+.imagen{
+    width: 20%;
+    height: auto;
+}
+.texto{
+    width: 60%;
+    height: 100%;
+}
+.mas{
+    width: 20%;
+    height: 100%;
+}
+/*propiedad de opacidad del menu*/
+
+.opacidad {
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    background: rgba(0, 0, 0, 0.1);
+    opacity: .1;
+    -webkit-transition: width .2s;
+}
+div.divisores-fila:hover.opacidad {
+    width: 250px;
+}
+::-webkit-input-placeholder {
+    text-align: right;
+}
+div.divisores-fila:hover .opacidad {
+    background: white;
+    color: white;
+}
