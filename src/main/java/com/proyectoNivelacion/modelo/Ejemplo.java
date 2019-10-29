@@ -10,5 +10,5 @@ package com.proyectoNivelacion.modelo;
  * @author Alejandro
  */
 public class Ejemplo {
-    
+    int nepesito;
 }
