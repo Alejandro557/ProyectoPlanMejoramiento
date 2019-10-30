@@ -7,7 +7,6 @@ package com.proyectoNivelacion.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,9 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -30,8 +27,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Efectivo.findAll", query = "SELECT e FROM Efectivo e")
     , @NamedQuery(name = "Efectivo.findByEfectivoId", query = "SELECT e FROM Efectivo e WHERE e.efectivoId = :efectivoId")
     , @NamedQuery(name = "Efectivo.findByEfectivoDinero", query = "SELECT e FROM Efectivo e WHERE e.efectivoDinero = :efectivoDinero")
-    , @NamedQuery(name = "Efectivo.findByEfectivoVueltas", query = "SELECT e FROM Efectivo e WHERE e.efectivoVueltas = :efectivoVueltas")
-    , @NamedQuery(name = "Efectivo.findByPagoId", query = "SELECT e FROM Efectivo e WHERE e.pagoId = :pagoId")})
+    , @NamedQuery(name = "Efectivo.findByEfectivoVueltas", query = "SELECT e FROM Efectivo e WHERE e.efectivoVueltas = :efectivoVueltas")})
 public class Efectivo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,23 +41,12 @@ public class Efectivo implements Serializable {
     private BigDecimal efectivoDinero;
     @Column(name = "efectivo_vueltas")
     private BigDecimal efectivoVueltas;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "pago_id")
-    private int pagoId;
-    @OneToMany(mappedBy = "efectivoId")
-    private List<Pagos> pagosList;
 
     public Efectivo() {
     }
 
     public Efectivo(Integer efectivoId) {
         this.efectivoId = efectivoId;
-    }
-
-    public Efectivo(Integer efectivoId, int pagoId) {
-        this.efectivoId = efectivoId;
-        this.pagoId = pagoId;
     }
 
     public Integer getEfectivoId() {
@@ -86,22 +71,6 @@ public class Efectivo implements Serializable {
 
     public void setEfectivoVueltas(BigDecimal efectivoVueltas) {
         this.efectivoVueltas = efectivoVueltas;
-    }
-
-    public int getPagoId() {
-        return pagoId;
-    }
-
-    public void setPagoId(int pagoId) {
-        this.pagoId = pagoId;
-    }
-
-    public List<Pagos> getPagosList() {
-        return pagosList;
-    }
-
-    public void setPagosList(List<Pagos> pagosList) {
-        this.pagosList = pagosList;
     }
 
     @Override

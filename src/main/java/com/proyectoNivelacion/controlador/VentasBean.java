@@ -5,18 +5,31 @@
  */
 package com.proyectoNivelacion.controlador;
 
+import com.ibm.icu.text.DateFormat;
+import com.proyectoNivelacion.entity.Datospersona;
+import com.proyectoNivelacion.entity.Efectivo;
+import com.proyectoNivelacion.entity.Pagos;
 import com.proyectoNivelacion.entity.Productos;
 import com.proyectoNivelacion.entity.ProductosPublicados;
 import com.proyectoNivelacion.entity.Tarjetas;
+import com.proyectoNivelacion.entity.VentaProductos;
+import com.proyectoNivelacion.entity.Ventas;
 import com.proyectoNivelacion.helperBean.Mensaje;
+import com.proyectoNivelacion.modelo.DatospersonaFacade;
+import com.proyectoNivelacion.modelo.EfectivoFacade;
+import com.proyectoNivelacion.modelo.PagosFacade;
 import com.proyectoNivelacion.modelo.ProductosFacade;
 import com.proyectoNivelacion.modelo.ProductosPublicadosFacade;
 import com.proyectoNivelacion.modelo.TarjetasFacade;
+import com.proyectoNivelacion.modelo.VentaProductosFacade;
+import com.proyectoNivelacion.modelo.VentasFacade;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.event.ValueChangeEvent;
@@ -30,6 +43,20 @@ import javax.inject.Inject;
 @Named(value = "ventasBean")
 @SessionScoped
 public class VentasBean implements Serializable {
+
+    /**
+     * @return the ventasDTO
+     */
+    public Ventas getVentasDTO() {
+        return ventasDTO;
+    }
+
+    /**
+     * @param ventasDTO the ventasDTO to set
+     */
+    public void setVentasDTO(Ventas ventasDTO) {
+        this.ventasDTO = ventasDTO;
+    }
 
     @EJB
     private ProductosFacade productosDAO;
@@ -47,7 +74,25 @@ public class VentasBean implements Serializable {
     private TarjetasFacade tarjetasDAO;
     private Tarjetas tarjetasDTO = new Tarjetas();
     private int id = 0;
-    private boolean estado = false;
+    @EJB
+    private VentasFacade ventasDAO;
+    private Ventas ventasDTO = new Ventas();
+    private Date fechaSistema = new Date(Calendar.getInstance().getTimeInMillis()); // fecha del sistema
+    private BigDecimal efectivo = new BigDecimal("0");
+    private BigDecimal tarjeta = new BigDecimal("0");
+    @EJB
+    private VentaProductosFacade ventaProductosDAO;
+    private VentaProductos ventaProductoDTO = new VentaProductos();
+    @EJB
+    private PagosFacade pagosDAO;
+    private Pagos pagosDTO = new Pagos();
+    @EJB
+    private EfectivoFacade efectivoDAO;
+    private Efectivo efectivoDTO = new Efectivo();
+    private BigDecimal vueltas = new BigDecimal("0");
+    @EJB
+    private DatospersonaFacade datosPersonaDAO;
+    private Datospersona datosPersonaDTO = new Datospersona();
 
     /**
      * Creates a new instance of VentasBean
@@ -55,13 +100,86 @@ public class VentasBean implements Serializable {
     public VentasBean() {
     }
 
-    public void opcionVenta(ValueChangeEvent e) {
-        if (id > 0) {
-            estado = true;
+    public void guardarVenta() {
+        if (tirilla.getProductos().isEmpty()) {
+            menaje.setMensaje("mensaje('Error!', 'Agrega productos a carrito!', 'error');");
+        } else {
+            if (id != 0) {
+                tarjetasDTO = tarjetasDAO.find(id);
+                if (tarjetasDTO.getTarjetaDinero().doubleValue() >= tarjeta.doubleValue()) {
+                    if (tarjeta.doubleValue() >= total.doubleValue()) {
+                        vueltas = new BigDecimal(tarjeta.doubleValue() - total.doubleValue());
+                        datosPersonaDAO.create(datosPersonaDTO);
+                        ventasDTO.setPersonaId(datosPersonaDTO);
+                        ventasDTO.setVentaTotal(total);
+                        ventasDTO.setVentaFecha(fechaSistema);
+                        ventasDTO.setVentaEstado(true);
+                        ventasDTO.setVentaMetodo("TARJETA");
+                        ventasDAO.create(ventasDTO);
+                        for (ProductosPublicados producto : tirilla.getProductos()) {
+                            ventaProductoDTO.setProductoId(producto);
+                            ventaProductoDTO.setVentaId(ventasDTO);
+                            ventaProductosDAO.create(ventaProductoDTO);
+                            ventaProductoDTO = new VentaProductos();
+                        }
+                        pagosDTO.setTarjetaId(tarjetasDTO);
+                        pagosDTO.setVentaId(ventasDTO);
+                        pagosDAO.create(pagosDTO);
+                        menaje.setMensaje("mensaje('Venta guardada en tarjeta!', 'La venta fue guardada en tarjeta! tienes que dar vueltas al cliente de: $" + vueltas.intValue() + "', 'success');");
+                        ventasDTO = new Ventas();
+                        efectivoDTO = new Efectivo();
+                        pagosDTO = new Pagos();
+                        datosPersonaDTO = new Datospersona();
+                        tirilla.anular();
+                        total = new BigDecimal("0");
+                    } else {
+                        menaje.setMensaje("mensaje('Error!', 'No ingresaste suficiente dinero para realizar tu compra!', 'error');");
+                    }
+                } else {
+                    menaje.setMensaje("mensaje('Error!', 'No tienes suficiente dinero en tu tarjeta para realizar tu compra!', 'error');");
+                }
+            } else {
+                if (efectivo.doubleValue() >= total.doubleValue()) {
+                    vueltas = new BigDecimal(efectivo.doubleValue() - total.doubleValue());
+                    datosPersonaDAO.create(datosPersonaDTO);
+                    ventasDTO.setPersonaId(datosPersonaDTO);
+                    ventasDTO.setVentaTotal(total);
+                    ventasDTO.setVentaEstado(true);
+                    ventasDTO.setVentaFecha(fechaSistema);
+                    ventasDTO.setVentaMetodo("EFECTIVO");
+                    ventasDAO.create(ventasDTO);
+                    for (ProductosPublicados producto : tirilla.getProductos()) {
+                        ventaProductoDTO.setProductoId(producto);
+                        ventaProductoDTO.setVentaId(ventasDTO);
+                        ventaProductosDAO.create(ventaProductoDTO);
+                        ventaProductoDTO = new VentaProductos();
+                    }
+                    efectivoDTO.setEfectivoDinero(efectivo);
+                    efectivoDTO.setEfectivoVueltas(vueltas);
+                    efectivoDAO.create(efectivoDTO);
+                    pagosDTO.setEfectivoId(efectivoDTO);
+                    pagosDTO.setVentaId(ventasDTO);
+                    pagosDAO.create(pagosDTO);
+                    menaje.setMensaje("mensaje('Venta guardada en efectivo!', 'La venta fue guardada en efectivo! tienes que dar vueltas al cliente de: $" + vueltas.intValue() + "', 'success');");
+                    tirilla.anular();
+                    ventasDTO = new Ventas();
+                    datosPersonaDTO = new Datospersona();
+                    efectivoDTO = new Efectivo();
+                    pagosDTO = new Pagos();
+                    total = new BigDecimal("0");
+                } else {
+                    menaje.setMensaje("mensaje('Error!', 'No tienes suficiente dinero en efectivo para realizar tu compra!', 'error');");
+                }
+            }
         }
-        id = 0;
     }
-    
+
+    public void cancelarVenta() {
+        datosPersonaDTO = new Datospersona();
+        efectivo = new BigDecimal("0");
+        tarjeta = new BigDecimal("0");
+    }
+
     public List<SelectItem> itemsTarjeta() {
         List<SelectItem> items = new ArrayList<>();
         for (Tarjetas tarjetas : tarjetasDAO.findAllTarjetasForEstadoTrue()) {
@@ -73,6 +191,7 @@ public class VentasBean implements Serializable {
 
     public void anularVenta() {
         tirilla.anular();
+        menaje.setMensaje("mensaje('Anulado!', 'Venta anulada!', 'success');");
         total = new BigDecimal("0");
     }
 
@@ -201,17 +320,45 @@ public class VentasBean implements Serializable {
     }
 
     /**
-     * @return the estado
+     * @return the efectivo
      */
-    public boolean isEstado() {
-        return estado;
+    public BigDecimal getEfectivo() {
+        return efectivo;
     }
 
     /**
-     * @param estado the estado to set
+     * @param efectivo the efectivo to set
      */
-    public void setEstado(boolean estado) {
-        this.estado = estado;
+    public void setEfectivo(BigDecimal efectivo) {
+        this.efectivo = efectivo;
+    }
+
+    /**
+     * @return the tarjeta
+     */
+    public BigDecimal getTarjeta() {
+        return tarjeta;
+    }
+
+    /**
+     * @param tarjeta the tarjeta to set
+     */
+    public void setTarjeta(BigDecimal tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+
+    /**
+     * @return the datosPersonaDTO
+     */
+    public Datospersona getDatosPersonaDTO() {
+        return datosPersonaDTO;
+    }
+
+    /**
+     * @param datosPersonaDTO the datosPersonaDTO to set
+     */
+    public void setDatosPersonaDTO(Datospersona datosPersonaDTO) {
+        this.datosPersonaDTO = datosPersonaDTO;
     }
 
 }

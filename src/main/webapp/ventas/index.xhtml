@@ -60,23 +60,50 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <h:outputLabel value="Efectivo" for="efectivo"/>
-                                                            <h:inputText id="efectivo" class="form-control" requiredMessage="Ingresa el efectivo!" converter="javax.faces.BigDecimal" converterMessage="Ingresa numeros!"/>
+                                                            <h:inputText value="#{ventasBean.efectivo}" id="efectivo" class="form-control" converter="javax.faces.BigDecimal" converterMessage="Ingresa numeros!"/>
                                                             <h:message for="efectivo" class="text-danger"/>
                                                         </div>
                                                         <div class="col-12 col-md-6">
                                                             <h:outputLabel value="Tarjetas" for="tarjetas"/>
-                                                            <h:selectOneMenu value="#{ventasBean.id}" onchange="submit()" valueChangeListener="#{ventasBean.opcionVenta}" class="custom-select" id="tarjetas">
-                                                                <f:selectItem itemLabel="..." itemValue="-1"/>
+                                                            <h:selectOneMenu value="#{ventasBean.id}" class="custom-select" id="tarjetas">
+                                                                <f:selectItem itemLabel="..." itemValue="0"/>
                                                                 <f:selectItems value="#{ventasBean.itemsTarjeta()}"/>
                                                             </h:selectOneMenu>
                                                         </div>
-                                                        <h:panelGroup rendered="#{ventasBean.estado}">
-                                                            <div class="col-12 col-md-6">
-                                                                <h:outputLabel value="Valor pago con tarjeta" for="pagoT"/>
-                                                                <h:inputText id="pagoT" class="form-control" required="true" requiredMessage="Ingresa un pago con tarjeta!" converter="javax.faces.BigDecimal" converterMessage="Ingresa numeros!"/>
-                                                                <h:message for="pagoT" class="text-danger"/>
-                                                            </div>
-                                                        </h:panelGroup>
+                                                        <div class="col-12 col-md-6">
+                                                            <h:outputLabel value="Valor pago con tarjeta" for="pagoT"/>
+                                                            <h:inputText value="#{ventasBean.tarjeta}" id="pagoT" class="form-control" converter="javax.faces.BigDecimal" converterMessage="Ingresa numeros!"/>
+                                                            <h:message for="pagoT" class="text-danger"/>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <h:outputLabel value="Identificación" for="cc"/>
+                                                            <h:inputText value="#{ventasBean.datosPersonaDTO.personaDocumento}" id="cc" class="form-control" required="true" requiredMessage="Ingresa un numero de documento!" validatorMessage="Ingresa numeros!">
+                                                                <f:validateRegex pattern="[0-9]*"/>
+                                                            </h:inputText>
+                                                            <h:message for="cc" class="text-danger"/>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <h:outputLabel value="Nombre" for="nombre"/>
+                                                            <h:inputText value="#{ventasBean.datosPersonaDTO.personaNombre}" id="nombre" class="form-control" required="true" requiredMessage="Ingresa un nombre!" validatorMessage="Ingresa texto!">
+                                                                <f:validateRegex pattern="[A-Za-z]*"/>
+                                                            </h:inputText>
+                                                            <h:message for="nombre" class="text-danger"/>
+                                                        </div>
+                                                         <div class="col-12 col-md-6">
+                                                            <h:outputLabel value="Apellido" for="apellido"/>
+                                                            <h:inputText value="#{ventasBean.datosPersonaDTO.personaApellido}" id="apellido" class="form-control" required="true" requiredMessage="Ingresa un apellido!" validatorMessage="Ingresa texto!">
+                                                                <f:validateRegex pattern="[A-Za-z]*"/>
+                                                            </h:inputText>
+                                                            <h:message for="apellido" class="text-danger"/>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <h:outputLabel value="Descripción" for="descripcion"/>
+                                                            <h:inputTextarea value="#{ventasBean.ventasDTO.ventaDetalle}" id="descripcion" class="form-control" required="true" requiredMessage="Ingresa un valor!"/>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <h:commandButton action="#{ventasBean.guardarVenta()}" class="btn btn-primary btn-block mt-3" value="Guardar venta"/>
+                                                            <h:commandButton action="#{ventasBean.cancelarVenta()}" class="btn btn-danger btn-block mt-3" value="Cancelar venta"/>
+                                                        </div>
                                                     </div>
                                                 </h:form>
                                             </div>

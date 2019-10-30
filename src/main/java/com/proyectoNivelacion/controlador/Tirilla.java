@@ -35,7 +35,6 @@ public class Tirilla implements Serializable {
 
     public void anular() {
         productos = new ArrayList<>();
-        mensaje.setMensaje("mensaje('Anulado!', 'Venta anulada!', 'success');");
     }
     
     public BigDecimal total() {
