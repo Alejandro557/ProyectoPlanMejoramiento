@@ -19,13 +19,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alejandro
+ * @author kevin
  */
 @Entity
 @Table(name = "productos")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Productos.findAll", query = "SELECT p FROM Productos p")
     , @NamedQuery(name = "Productos.findByProductoId", query = "SELECT p FROM Productos p WHERE p.productoId = :productoId")
@@ -52,7 +55,7 @@ public class Productos implements Serializable {
     @Column(name = "producto_estado")
     private Boolean productoEstado;
     @OneToMany(mappedBy = "productoId")
-    private List<VentaProductos> ventaProductosList;
+    private List<ProductosPublicados> productosPublicadosList;
 
     public Productos() {
     }
@@ -101,12 +104,13 @@ public class Productos implements Serializable {
         this.productoEstado = productoEstado;
     }
 
-    public List<VentaProductos> getVentaProductosList() {
-        return ventaProductosList;
+    @XmlTransient
+    public List<ProductosPublicados> getProductosPublicadosList() {
+        return productosPublicadosList;
     }
 
-    public void setVentaProductosList(List<VentaProductos> ventaProductosList) {
-        this.ventaProductosList = ventaProductosList;
+    public void setProductosPublicadosList(List<ProductosPublicados> productosPublicadosList) {
+        this.productosPublicadosList = productosPublicadosList;
     }
 
     @Override
