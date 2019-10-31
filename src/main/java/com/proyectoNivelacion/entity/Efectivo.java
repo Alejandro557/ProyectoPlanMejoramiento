@@ -7,6 +7,7 @@ package com.proyectoNivelacion.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -41,6 +43,8 @@ public class Efectivo implements Serializable {
     private BigDecimal efectivoDinero;
     @Column(name = "efectivo_vueltas")
     private BigDecimal efectivoVueltas;
+    @OneToMany(mappedBy = "efectivoId")
+    private List<Pagos> pagosList;
 
     public Efectivo() {
     }
@@ -71,6 +75,14 @@ public class Efectivo implements Serializable {
 
     public void setEfectivoVueltas(BigDecimal efectivoVueltas) {
         this.efectivoVueltas = efectivoVueltas;
+    }
+
+    public List<Pagos> getPagosList() {
+        return pagosList;
+    }
+
+    public void setPagosList(List<Pagos> pagosList) {
+        this.pagosList = pagosList;
     }
 
     @Override

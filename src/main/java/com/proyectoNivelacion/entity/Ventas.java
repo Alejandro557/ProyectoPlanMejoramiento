@@ -26,13 +26,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alejandro
+ * @author kevin
  */
 @Entity
 @Table(name = "ventas")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Ventas.findAll", query = "SELECT v FROM Ventas v")
     , @NamedQuery(name = "Ventas.findByVentaId", query = "SELECT v FROM Ventas v WHERE v.ventaId = :ventaId")
@@ -137,6 +140,7 @@ public class Ventas implements Serializable {
         this.ventaDetalle = ventaDetalle;
     }
 
+    @XmlTransient
     public List<VentaProductos> getVentaProductosList() {
         return ventaProductosList;
     }
@@ -153,6 +157,7 @@ public class Ventas implements Serializable {
         this.personaId = personaId;
     }
 
+    @XmlTransient
     public List<Pagos> getPagosList() {
         return pagosList;
     }
