@@ -6,7 +6,7 @@
 package com.proyectoNivelacion.controller;
 
 import com.proyectoNivelacion.entity.Datospersona;
-import com.proyectoNivelacion.facade.DatospersonaFacade;
+import com.proyectoNivelacion.modelo.DatospersonaFacade;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

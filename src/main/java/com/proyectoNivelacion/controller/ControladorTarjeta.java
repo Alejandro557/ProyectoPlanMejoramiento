@@ -6,7 +6,7 @@
 package com.proyectoNivelacion.controller;
 
 import com.proyectoNivelacion.entity.Tarjetas;
-import com.proyectoNivelacion.facade.TarjetasFacade;
+import com.proyectoNivelacion.modelo.TarjetasFacade;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

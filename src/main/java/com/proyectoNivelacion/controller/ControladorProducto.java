@@ -6,7 +6,7 @@
 package com.proyectoNivelacion.controller;
 
 import com.proyectoNivelacion.entity.Productos;
-import com.proyectoNivelacion.facade.ProductosFacade;
+import com.proyectoNivelacion.modelo.ProductosFacade;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
