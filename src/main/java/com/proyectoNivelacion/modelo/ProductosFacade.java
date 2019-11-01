@@ -31,7 +31,7 @@ public class ProductosFacade extends AbstractFacade<Productos> {
     public ProductosFacade() {
         super(Productos.class);
     }
-    
+
     public List<Productos> findAllProductosForEstadoTrue() {
         try {
             query = em.createQuery("select p from Productos p where p.productoEstado = true");
@@ -42,5 +42,15 @@ public class ProductosFacade extends AbstractFacade<Productos> {
         }
         return null;
     }
-    
+
+    public boolean producto(Productos producto) {
+        boolean verificar = false;
+        Query query = em.createQuery("select p from Productos p where p.productoNombre =:producto");
+        query.setParameter("producto", producto.getProductoNombre());
+        if (query.getResultList().isEmpty()) {
+            verificar = true;
+        }
+
+        return verificar;
+    }
 }

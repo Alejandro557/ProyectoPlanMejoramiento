@@ -25,12 +25,13 @@
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
         </script>
+        <script src="../resources/js/sweetalert.min.js" type="text/javascript"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
         </script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
         </script>
 
-        <script src="../resources/js/plugins/sweetalert.min.js"></script> 
+        
         <script>
             function mensaje(titulo, mensaje, icono) {
                 swal({title: titulo, text: mensaje, icon: icono, button: "Cerrar"});
@@ -70,20 +71,20 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <h:outputLabel for="valor" value="Cantidad:"/>
+                                                <h:outputLabel for="cantidad" value="Cantidad:"/>
                                                 <h:inputText value="#{controladorProducto.producto.productoCantidad}" autocomplete="off" id="cantidad"  class="form-control"  label="Este campo" title="Introduce entre 2 y 15 letras" required="true" requiredMessage="Campo requerido" validatorMessage="Error de datos!"  >
 
                                                 </h:inputText>
 
                                             </div>
-                                            <h:messages for="valor" style="color:#239B56"/>
+                                            <h:messages for="cantidad" style="color:#239B56"/>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <h:outputLabel for="valor" value="Valor:"/>
-                                                <h:inputText value="#{controladorProducto.producto.productoValor}" autocomplete="off" id="precio"  class="form-control"  label="Este campo" title="Introduce entre 2 y 15 letras" required="true" requiredMessage="Campo requerido" validatorMessage="Error de datos!"  >
+                                                <h:inputText value="#{controladorProducto.valor}"  autocomplete="off" id="valor"  class="form-control"  label="Este campo" title="Introduce entre 2 y 15 letras" required="true" requiredMessage="Campo requerido" validatorMessage="Error de datos!"  >
 
                                                 </h:inputText>
 

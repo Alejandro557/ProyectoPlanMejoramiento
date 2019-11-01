@@ -25,17 +25,22 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link text-white" href="#">Productos <span class="sr-only">(current)</span></a>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white"   target="apartado" href="ventas/ventas">Ventas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Tarjeta de credito</a>
+                            <a class="nav-link text-white"  target="apartado" href="reportes/vista-reportes.xhtml">Reportes</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Ventas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Reportes</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Parametrización
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item"  target="apartado" href="pedido/registrar-pedido.xhtml">Productos</a>
+                                <a class="dropdown-item"  target="apartado" href="pedido/tarjeta.xhtml">Tarjeta de credito</a>
+
+                            </div>
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
@@ -55,43 +60,49 @@
                     </span>
                 </label>
                 <section class="desplegable" id="desplegable">
-                    <a class="tamaño" href="#ventas" data-toggle="tab" target="apartado">
+                    <a class="tamaño" href="pedido/registrar-pedido.xhtml" style="text-decoration:none" target="apartado">
                         <div class=" borde divisores-fila">
                             <div class="opacidad">
                             </div>
-                            <p class=" centrado">
+                            <p class=" centrado text-white">
+                                Productos
+                            </p>
+                        </div>
+                    </a>
+                    <a class="tamaño" href="ventas/ventas.xhtml" style="text-decoration:none" target="apartado">
+                        <div class=" borde divisores-fila">
+                            <div class="opacidad">
+                            </div>
+                            <p class=" centrado text-white">
                                 Ventas
                             </p>
                         </div>
                     </a>
-                    <a class="tamaño" href="pedidosad.html" target="apartado">
+                    <a class="tamaño" style="text-decoration:none" href="pedido/tarjeta.xhtml" target="apartado">
                         <div class=" borde divisores-fila">
                             <div class="opacidad">
                             </div>
-                            <p class=" centrado">
+                            <p class=" centrado text-white" >
                                 Tarjeta de credito
                             </p>
                         </div>
                     </a>
-                    <a class="tamaño" href="funciones.html" target="apartado">
+
+                    <a class="tamaño" href="reportes/vista-reportes.xhtml" style="text-decoration:none" target="apartado">
                         <div class=" borde divisores-fila">
                             <div class="opacidad">
                             </div>
-                            <p class="centrado">
-                                Ventas
-                            </p>
-                        </div>
-                    </a>
-                    <a class="tamaño" href="malla-turno.html" target="apartado">
-                        <div class=" borde divisores-fila">
-                            <div class="opacidad">
-                            </div>
-                            <p class="centrado">
+                            <p class="centrado text-white">
                                 Reportes
                             </p>
                         </div>
                     </a>
                 </section>
+                <aside id="contenido" class="ifrc">
+                    <iframe name="apartado" src="" >
+
+                    </iframe>
+                </aside>
             </input>
         </div>
         <div class="row">
@@ -101,7 +112,7 @@
                         <div class="card card-body">
                             <h3 class="text-center text-light">Ventas</h3>
                             <hr class="bg-light"/>
-                            
+
                         </div>
                     </div>
                 </div>

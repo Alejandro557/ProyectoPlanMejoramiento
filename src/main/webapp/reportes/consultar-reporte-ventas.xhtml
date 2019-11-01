@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+        <!--     Fonts and icons     -->
+
+        <link href="../resources/css/datatables.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="../resources/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../resources/css/tcal.css" rel="stylesheet" type="text/css"/>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+        </script>
+
+        <script src="../resources/js/plugins/sweetalert.min.js"></script> 
+        <script>
+            function mensaje(titulo, mensaje, icono) {
+                swal({title: titulo, text: mensaje, icon: icono, button: "Cerrar"});
+            }
+        </script>
+    </h:head>
+    <h:body>
+
+
+
+        <div class="card card-body">
+
+            <h3 class="text-center card-title">Resultado Del Reporte</h3>
+            <hr class="bg-dark"/>
+            <h:form>
+                <table id="tabla"  class="table  table-hover  dt-responsive nowrap table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+
+                            <td> ID Venta</td>
+                            <td>Responsable</td>
+                            <td> Metodo</td>
+                            <td>Detalle</td>
+                            <td>Cantidad</td>
+                            <td>Estado</td>
+                            <td>Fecha de Venta</td>
+                            <td>Total</td>
+
+                            <td>Acciones</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="ven" items="#{ventasBean.consultar()}">
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{ven.ventaId}"/> 
+                                </td>
+                                <td>
+                                    <h:outputText value="#{ven.personaId.personaNombre}" /> 
+                                </td>
+                                <td>
+                                    <h:outputText value="#{ven.ventaMetodo}" /> 
+                                </td>
+                                <td>
+                                    <h:outputText value="#{ven.ventaDetalle}"/> 
+                                </td>
+                                <td>
+                                    <h:outputText value="#{ven.ventaCantidad}"/>  
+
+                                </td>
+                                <td>
+                                    <h:outputText value="#{ven.ventaEstado}"/> 
+
+                                </td>
+                                <td>
+                                    <h:outputText value="#{ven.ventaFecha}"/> 
+                                </td>
+                                <td>
+                                    <h:outputText value="#{ven.ventaTotal}"/> 
+                                </td>
+
+                                <td>
+                                    <div class="d-flex justify-content-around">
+                                        <h:commandLink class="icon-edit-pencil text-decoration-none text-success" />
+                                        <h:commandLink class="icon-close text-decoration-none text-danger" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>      
+                </table>
+            </h:form>
+        </div>
+
+        </div>
+
+
+    </h:body>
+
+    <script>
+        $(document).ready(function () {
+            $('#tabla').dataTable({
+
+                columnDefs: [{
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets: 0
+                    }],
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                }
+            });
+        });
+    </script>
+    <script src="../resources/botstrap/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="../resources/botstrap/popper.min.js" type="text/javascript"></script>
+    <script src="../resources/botstrap/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../resources/js/datatables.min.js" type="text/javascript"></script>
+</html>
+

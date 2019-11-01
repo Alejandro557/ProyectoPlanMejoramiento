@@ -100,6 +100,10 @@ public class VentasBean implements Serializable {
     public VentasBean() {
     }
 
+    public List<Ventas> consultar() {
+        return ventasDAO.findAll();
+    }
+
     public void guardarVenta() {
         if (tirilla.getProductos().isEmpty()) {
             menaje.setMensaje("mensaje('Error!', 'Agrega productos a carrito!', 'error');");
